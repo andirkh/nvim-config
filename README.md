@@ -54,6 +54,7 @@ If you update plugins with `:Lazy update`, `lazy-lock.json` changes. Commit it, 
 | `ghostty/config` | Ghostty's config (linked into Ghostty's settings folder) |
 | `angelly/config.ghostty` | Angelly's config (linked into Angelly's settings folder) |
 | `lazygit/config.yml` | lazygit's config (linked into lazygit's settings folder) |
+| `lua/plugins/statusline.lua` | Encoding, language and formatter on the right of the status bar |
 | `install.sh` / `sync.sh` | The two scripts above |
 
 ### The two terminals
@@ -79,6 +80,7 @@ Both files are symlinks into this repo, so editing a terminal's config on either
 | Click a result in find and replace | Jump to that line |
 | `Ctrl+h` / `Ctrl+l` | Move to the window on the left / right, wrapping around at the edges |
 | `:start` / `:end` | Go to the first / last line |
+| Status bar, bottom right | Encoding, language and the formatter that runs on save, like VS Code; `(off)` when format on save is off (`Space u f`) |
 | `Space g g`, then `Esc` | Open lazygit; `Esc` closes menus first, then lazygit itself |
 | `Space c f` | Format with Prettier (Mason's copy, which may be a different version from the project's; on a syntax error it replaces the file with the error, so press `u` to undo) |
 
