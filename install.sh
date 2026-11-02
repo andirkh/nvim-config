@@ -2,6 +2,7 @@
 # Sets up this Neovim config on a Mac from nothing. Installs Homebrew if it's missing, reinstalls
 # Neovim and lazygit even when they're already there, installs Ghostty and its font if they're
 # missing, moves Neovim's old plugin data aside, then runs sync.sh for everything else.
+# Angelly isn't on Homebrew, so it has to be installed by hand; sync.sh links its config.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

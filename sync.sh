@@ -1,26 +1,34 @@
 #!/usr/bin/env bash
 # Brings this Mac in line with the repo, usually right after a `git pull`: installs tools added to
-# the Brewfile, points Ghostty at the config in this repo, and puts every plugin at the exact
-# version in lazy-lock.json, removing plugins the config no longer uses.
+# the Brewfile, points Ghostty and Angelly at their configs in this repo, and puts every plugin at
+# the exact version in lazy-lock.json, removing plugins the config no longer uses.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 brew bundle --file "$DIR/Brewfile" --no-upgrade
 
-# A symlink, so Ghostty changes made on either Mac land in the repo
-GHOSTTY="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-if [[ "$(readlink "$GHOSTTY" || true)" != "$DIR/ghostty/config" ]]; then
-  mkdir -p "$(dirname "$GHOSTTY")"
-  if [[ -e "$GHOSTTY" ]]; then
-    mv "$GHOSTTY" "$GHOSTTY.bak-$(date +%Y%m%d-%H%M%S)"
+# Each terminal reads its config through a symlink into this repo, so a change made on either
+# Mac lands in git. Angelly is a Ghostty fork with its own, separate config.
+link_config() {
+  local repo_file="$DIR/$1" app_file="$2"
+  if [[ "$(readlink "$app_file" || true)" != "$repo_file" ]]; then
+    mkdir -p "$(dirname "$app_file")"
+    if [[ -e "$app_file" ]]; then
+      mv "$app_file" "$app_file.bak-$(date +%Y%m%d-%H%M%S)"
+    fi
+    ln -s "$repo_file" "$app_file"
   fi
-  ln -s "$DIR/ghostty/config" "$GHOSTTY"
-fi
+}
+link_config ghostty/config "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+link_config angelly/config.ghostty "$HOME/Library/Application Support/com.adetxt.angelly/config.ghostty"
 
 nvim --headless "+Lazy! restore" "+Lazy! clean" +qa
 
 if ! command -v node >/dev/null; then
   echo "Note: Node isn't on your PATH. The TypeScript language server and Prettier need it."
 fi
-echo "Done. Restart Neovim, and reload Ghostty's config with Cmd+Shift+,"
+if [[ ! -d /Applications/Angelly.app ]]; then
+  echo "Note: Angelly isn't installed. It isn't on Homebrew, so install it by hand; its config is already linked."
+fi
+echo "Done. Restart Neovim, and reload the terminal's config with Cmd+Shift+,"
