@@ -1,0 +1,16 @@
+theme = Ubuntu
+
+font-family = "UbuntuMono Nerd Font"
+font-size = 15
+adjust-cell-height = 4
+
+#window-padding-x = 2
+#window-padding-y = 2
+
+macos-option-as-alt = left
+
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+# Send Cmd+F / Cmd+Option+F to Neovim (find / find and replace) instead of Ghostty's search
+keybind = super+f=csi:102;9u
+keybind = super+alt+f=csi:102;11u
