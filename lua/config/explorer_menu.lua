@@ -16,6 +16,27 @@ local function node_dir()
   return n.type == "directory" and n.path or vim.fn.fnamemodify(n.path, ":h")
 end
 
+-- Pickers and panels opened from the tree must start from a code window: a file opened in the
+-- tree's window gets bounced elsewhere by neo-tree, losing the line it should jump to.
+local function focus_code_window()
+  local tree_win
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.api.nvim_win_get_config(win).relative == "" then
+      if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "neo-tree" then
+        tree_win = win
+      else
+        vim.api.nvim_set_current_win(win)
+        return
+      end
+    end
+  end
+  -- With only the tree open it fills the screen, so shrink it back to its usual width
+  vim.cmd("botright vnew")
+  if tree_win then
+    vim.api.nvim_win_set_width(tree_win, require("neo-tree").config.window.width or 40)
+  end
+end
+
 local function copy(text)
   vim.fn.setreg("+", text)
   vim.notify("Copied: " .. text)
@@ -31,11 +52,13 @@ M.actions = {
   new_file = cmd("add"),
   new_folder = cmd("add_directory"),
   find_in_folder = function()
-    LazyVim.pick("live_grep", { cwd = node_dir() })()
+    local dir = node_dir()
+    focus_code_window()
+    LazyVim.pick("live_grep", { cwd = dir })()
   end,
   replace_in_folder = function()
     local dir = node_dir()
-    vim.cmd("wincmd p") -- open the panel beside the code, not inside the tree
+    focus_code_window()
     require("grug-far").open({ prefills = { paths = vim.fn.escape(dir, " ") } })
   end,
   copy = cmd("copy_to_clipboard"),
@@ -75,8 +98,9 @@ for _, item in ipairs(items) do
 end
 
 vim.keymap.set("n", "<RightMouse>", function()
-  local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
-  if vim.bo[buf].filetype == "neo-tree" and vim.b[buf].neo_tree_source == "filesystem" then
+  local win = vim.fn.getmousepos().winid
+  local buf = win ~= 0 and vim.api.nvim_win_get_buf(win)
+  if buf and vim.bo[buf].filetype == "neo-tree" and vim.b[buf].neo_tree_source == "filesystem" then
     -- Left click first so the cursor lands on the clicked item.
     return "<LeftMouse><Cmd>popup ExplorerPopUp<CR>"
   end

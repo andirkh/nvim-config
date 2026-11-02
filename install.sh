@@ -15,9 +15,19 @@ fi
 
 if ! command -v brew >/dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+# Homebrew lives in /opt/homebrew on Apple silicon and /usr/local on Intel
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if [[ -x "$brew_bin" ]]; then
+    eval "$("$brew_bin" shellenv)"
+    break
+  fi
+done
 BREW_PREFIX="$(brew --prefix)"
+# New terminal windows need Homebrew on the PATH too, not just this script
+if ! grep -qs "brew shellenv" "$HOME/.zprofile"; then
+  echo "eval \"\$($BREW_PREFIX/bin/brew shellenv)\"" >> "$HOME/.zprofile"
+fi
 
 # Copies of nvim or lazygit that didn't come from Homebrew would shadow the new ones,
 # so move them aside rather than leave two versions on the PATH.

@@ -36,7 +36,7 @@ cd ~/.config/nvim
 git pull && ./sync.sh
 ```
 
-`sync.sh` is safe to run any time. It installs tools newly added to the `Brewfile` (without upgrading the ones you have), links the terminal configs, puts every plugin at the version in `lazy-lock.json`, and removes plugins the config no longer uses. Afterwards, restart Neovim and reload the terminal's config with `Cmd+Shift+,`.
+`sync.sh` is safe to run any time. It installs tools newly added to the `Brewfile` (without upgrading the ones you have), links the terminal and lazygit configs, puts every plugin at the version in `lazy-lock.json`, and removes plugins the config no longer uses. Afterwards, restart Neovim and reload the terminal's config with `Cmd+Shift+,`.
 
 If you update plugins with `:Lazy update`, `lazy-lock.json` changes. Commit it, or the other Mac stays on the old versions.
 
@@ -53,6 +53,7 @@ If you update plugins with `:Lazy update`, `lazy-lock.json` changes. Commit it, 
 | `Brewfile` | Command-line tools both Macs need |
 | `ghostty/config` | Ghostty's config (linked into Ghostty's settings folder) |
 | `angelly/config.ghostty` | Angelly's config (linked into Angelly's settings folder) |
+| `lazygit/config.yml` | lazygit's config (linked into lazygit's settings folder) |
 | `install.sh` / `sync.sh` | The two scripts above |
 
 ### The two terminals
@@ -78,7 +79,8 @@ Both files are symlinks into this repo, so editing a terminal's config on either
 | Click a result in find and replace | Jump to that line |
 | `Ctrl+h` / `Ctrl+l` | Move to the window on the left / right, wrapping around at the edges |
 | `:start` / `:end` | Go to the first / last line |
-| `Space c f` | Format with Prettier (needs a global `prettier`; press `u` to undo if it replaces the file with an error) |
+| `Space g g`, then `Esc` | Open lazygit; `Esc` closes menus first, then lazygit itself |
+| `Space c f` | Format with Prettier (Mason's copy, which may be a different version from the project's; on a syntax error it replaces the file with the error, so press `u` to undo) |
 
 ### Files and search
 

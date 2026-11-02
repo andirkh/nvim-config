@@ -1,0 +1,2 @@
+# Esc still closes menus and backs out of panels; on the main screen it closes lazygit
+quitOnTopLevelReturn: true

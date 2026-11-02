@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Brings this Mac in line with the repo, usually right after a `git pull`: installs tools added to
-# the Brewfile, points Ghostty and Angelly at their configs in this repo, and puts every plugin at
-# the exact version in lazy-lock.json, removing plugins the config no longer uses.
+# the Brewfile, points Ghostty, Angelly and lazygit at their configs in this repo, and puts every
+# plugin at the exact version in lazy-lock.json, removing plugins the config no longer uses.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 brew bundle --file "$DIR/Brewfile" --no-upgrade
 
-# Each terminal reads its config through a symlink into this repo, so a change made on either
-# Mac lands in git. Angelly is a Ghostty fork with its own, separate config.
+# Each app reads its config through a symlink into this repo, so a change made on either Mac
+# lands in git. Angelly is a Ghostty fork with its own, separate config.
 link_config() {
   local repo_file="$DIR/$1" app_file="$2"
   if [[ "$(readlink "$app_file" || true)" != "$repo_file" ]]; then
@@ -22,6 +22,7 @@ link_config() {
 }
 link_config ghostty/config "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 link_config angelly/config.ghostty "$HOME/Library/Application Support/com.adetxt.angelly/config.ghostty"
+link_config lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
 
 nvim --headless "+Lazy! restore" "+Lazy! clean" +qa
 
