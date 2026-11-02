@@ -1,0 +1,18 @@
+# Mason packages installed on this Mac; sync.sh installs these everywhere
+css-lsp
+css-variables-language-server
+cssmodules-language-server
+emmet-language-server
+eslint-lsp
+json-lsp
+jsonld-lsp
+lua-language-server
+markdown-toc
+markdownlint-cli2
+marksman
+prettier
+prettierd
+shfmt
+stylua
+tailwindcss-language-server
+typescript-language-server

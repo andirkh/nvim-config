@@ -18,7 +18,8 @@ After that:
 
 1. **Install Angelly by hand.** It isn't on Homebrew, so the script can't fetch it. Its config is linked anyway.
 2. **Make sure Node is installed.** The TypeScript language server and Prettier need it. It's not in the script because Node comes from pnpm.
-3. **Open `nvim` once.** Mason installs the language servers on the first launch, which takes a minute.
+
+Language servers, formatters, linters and syntax parsers are installed by the script, so Neovim is fully ready the first time you open it.
 
 ## Keeping both Macs in sync
 
@@ -36,9 +37,11 @@ cd ~/.config/nvim
 git pull && ./sync.sh
 ```
 
-`sync.sh` is safe to run any time. It installs tools newly added to the `Brewfile` (without upgrading the ones you have), links the terminal and lazygit configs, puts every plugin at the version in `lazy-lock.json`, and removes plugins the config no longer uses. Afterwards, restart Neovim and reload the terminal's config with `Cmd+Shift+,`.
+`sync.sh` is safe to run any time. It installs tools newly added to the `Brewfile` (without upgrading the ones you have), links the terminal and lazygit configs, puts every plugin at the version in `lazy-lock.json`, removes plugins the config no longer uses, and installs every language server, formatter, linter and parser in `mason.txt` and `treesitter.txt`. Afterwards, restart Neovim and reload the terminal's config with `Cmd+Shift+,`.
 
 If you update plugins with `:Lazy update`, `lazy-lock.json` changes. Commit it, or the other Mac stays on the old versions.
+
+The same goes for tools. If you install a language server or formatter by hand with `:Mason`, the next `./sync.sh` adds it to `mason.txt` (and new parsers to `treesitter.txt`). Commit those lists and the other Mac installs them on its next sync.
 
 ## What's in here
 
@@ -56,6 +59,8 @@ If you update plugins with `:Lazy update`, `lazy-lock.json` changes. Commit it, 
 | `lazygit/config.yml` | lazygit's config (linked into lazygit's settings folder) |
 | `lua/plugins/statusline.lua` | Encoding, language and formatter on the right of the status bar |
 | `install.sh` / `sync.sh` | The two scripts above |
+| `scripts/tools.lua` | Run by `sync.sh`: installs the language servers, formatters, linters and parsers, and updates the two lists |
+| `mason.txt` / `treesitter.txt` | Every Mason package and syntax parser installed; `sync.sh` installs them on both Macs |
 
 ### The two terminals
 
@@ -82,7 +87,7 @@ Both files are symlinks into this repo, so editing a terminal's config on either
 | `:start` / `:end` | Go to the first / last line |
 | Status bar, bottom right | Encoding, language and the formatter that runs on save, like VS Code; `(off)` when format on save is off (`Space u f`) |
 | `Space g g`, then `Esc` | Open lazygit; `Esc` closes menus first, then lazygit itself |
-| `Space c f` | Format with Prettier (Mason's copy, which may be a different version from the project's; on a syntax error it replaces the file with the error, so press `u` to undo) |
+| `Space c f` | Format the file with Prettier (the project's own copy when it has one); on broken code it shows the error and leaves the file alone. Saving formats too |
 
 ### Files and search
 
@@ -121,6 +126,18 @@ In a picker, `Ctrl+v` opens the file side by side and `Ctrl+s` opens it below.
 | `Ctrl+o` / `Ctrl+i` | Jump back / forward |
 | `gg` / `G` | First / last line |
 | `Space u C` | Preview and pick a colour scheme |
+
+### Finding a component's props
+
+Say `VideoCallPage.tsx` renders `<VideoPanel ... />` and you want to know what `VideoPanel` takes. It all comes from the TypeScript language server, as in VS Code.
+
+| Keys | What it does |
+| --- | --- |
+| `K` on the component name | Popup with every prop and its type. Props without `?` are required. Press `K` again to scroll the popup |
+| `gd` on the component name | Jump to where it's defined to read the props type and defaults. `gd` on a named type like `VideoPanelProps` opens that type. `Ctrl+o` jumps back |
+| Space (or `Ctrl+Space`) inside the tag, in insert mode | Suggests the props you haven't used yet, with their types |
+| `Space c d` on a red `<VideoPanel` | Shows what's wrong, such as *Property 'label' is missing* |
+| `Space c a` on that error | Quick fixes, which can include *Add missing attributes* to fill in the required props |
 
 ### Markdown
 

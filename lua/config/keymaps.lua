@@ -2,10 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-vim.keymap.set("n", "<leader>cf", function()
-  vim.cmd(":%!prettier --stdin-filepath " .. vim.fn.expand("%:p"))
-end, { desc = "Format current buffer with Prettier" })
-
 require("config.explorer_menu")
 
 -- Cmd+F: find in the current file (Enter, then n / N for next / previous)

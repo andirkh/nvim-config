@@ -1,0 +1,25 @@
+# Treesitter parsers installed on this Mac; sync.sh installs these everywhere
+bash
+c
+diff
+dtd
+html
+javascript
+jsdoc
+json
+lua
+luadoc
+luap
+markdown
+markdown_inline
+printf
+python
+query
+regex
+toml
+tsx
+typescript
+vim
+vimdoc
+xml
+yaml
