@@ -25,6 +25,12 @@ link_config angelly/config.ghostty "$HOME/Library/Application Support/com.adetxt
 
 nvim --headless "+Lazy! restore" "+Lazy! clean" +qa
 
+# markdown-preview's build only starts a background download, which a headless run cuts short
+MDP="$HOME/.local/share/nvim/lazy/markdown-preview.nvim/app"
+if [[ -d "$MDP" ]] && ! compgen -G "$MDP/bin/markdown-preview-*" >/dev/null; then
+  (cd "$MDP" && sh ./install.sh)
+fi
+
 if ! command -v node >/dev/null; then
   echo "Note: Node isn't on your PATH. The TypeScript language server and Prettier need it."
 fi

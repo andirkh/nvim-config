@@ -117,3 +117,12 @@ In a picker, `Ctrl+v` opens the file side by side and `Ctrl+s` opens it below.
 | `Ctrl+o` / `Ctrl+i` | Jump back / forward |
 | `gg` / `G` | First / last line |
 | `Space u C` | Preview and pick a colour scheme |
+
+### Markdown
+
+Markdown files render in place: headings, tables, checkboxes and code blocks are drawn as they'd look, and the line you're editing shows the raw text.
+
+| Keys | What it does |
+| --- | --- |
+| `Space c p` | Open or close a live preview in the browser (follows your scrolling) |
+| `Space u m` | Turn in-place rendering off or on |
