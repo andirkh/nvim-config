@@ -98,5 +98,7 @@ return {
       },
       { formatter, cond = is_file },
     })
+    -- LazyVim shows a clock here; drop it
+    opts.sections.lualine_z = {}
   end,
 }

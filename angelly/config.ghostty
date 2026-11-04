@@ -51,3 +51,7 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 theme = Ubuntu
+window-save-state = always
+window-theme = auto
+window-padding-x = 12
+window-padding-y = 8
