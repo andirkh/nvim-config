@@ -55,3 +55,8 @@ window-save-state = always
 window-theme = auto
 window-padding-x = 12
 window-padding-y = 8
+
+# Disable programming ligatures (e.g. !== and => render as typed)
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
