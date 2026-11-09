@@ -100,5 +100,7 @@ return {
     })
     -- LazyVim shows a clock here; drop it
     opts.sections.lualine_z = {}
+    -- The mode (NORMAL / INSERT / VISUAL) floats centered above the bar instead, see mode-indicator.lua
+    opts.sections.lualine_a = {}
   end,
 }
