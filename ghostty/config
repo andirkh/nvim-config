@@ -14,3 +14,7 @@ keybind = alt+right=unbind
 # Send Cmd+F / Cmd+Option+F to Neovim (find / find and replace) instead of Ghostty's search
 keybind = super+f=csi:102;9u
 keybind = super+alt+f=csi:102;11u
+# Cmd+Option+Left / Right move between Neovim windows (neo-tree <-> editor) as Ctrl+H / Ctrl+L
+# instead of Ghostty's split navigation
+keybind = super+alt+arrow_left=csi:104;5u
+keybind = super+alt+arrow_right=csi:108;5u

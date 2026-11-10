@@ -60,3 +60,4 @@ window-padding-y = 8
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
+macos-icon = egyptian

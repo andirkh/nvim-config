@@ -102,5 +102,9 @@ return {
     opts.sections.lualine_z = {}
     -- The mode (NORMAL / INSERT / VISUAL) floats centered above the bar instead, see mode-indicator.lua
     opts.sections.lualine_a = {}
+    -- No git branch on the left
+    opts.sections.lualine_b = {}
+    -- Middle dots between items instead of LazyVim's angle arrows
+    opts.options.component_separators = { left = "·", right = "·" }
   end,
 }
