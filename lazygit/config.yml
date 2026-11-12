@@ -1,8 +1,2 @@
 # Esc still closes menus and backs out of panels; on the main screen it closes lazygit
 quitOnTopLevelReturn: true
-
-# Side-by-side diffs (old left, new right) via delta, like VS Code
-git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --side-by-side --line-numbers
